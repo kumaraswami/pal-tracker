@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
   - name: pal-tracker
-  - name: version
+  - name: 1.0
 
 outputs:
   - name: build-output
