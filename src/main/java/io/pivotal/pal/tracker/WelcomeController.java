@@ -9,12 +9,13 @@ public class WelcomeController {
 
 	private String welcomeMsg;
 
-	public WelcomeController(@Value("${WELCOME_MESSAGE}") String welcomeMsg) {
-		welcomeMsg = this.welcomeMsg;
+	public WelcomeController(
+			@Value("${WELCOME_MESSAGE}") String welcomeMsg) {
+		this.welcomeMsg = welcomeMsg;
 	}
 
 	    @GetMapping("/")
 	        public String sayHello() {
-			        return "hello";
+			        return welcomeMsg;
 				    }
 }
