@@ -12,23 +12,29 @@ import java.util.List;
 @RequestMapping("/time-entries")
 public class TimeEntryController {
 
-    TimeEntryRepository timeEntryRepository;
+    //TimeEntryRepository timeEntryRepository;
 
 
-    public TimeEntryController(TimeEntryRepository timeEntryRepository) {
+    /*public TimeEntryController(TimeEntryRepository timeEntryRepository) {
         this.timeEntryRepository = timeEntryRepository;
+    }*/
+
+    JdbcTimeEntryRepository jdbcTimeEntryRepository;
+
+    public TimeEntryController(JdbcTimeEntryRepository jdbcTimeEntryRepository) {
+        this.jdbcTimeEntryRepository = jdbcTimeEntryRepository;
     }
 
     @PostMapping
     public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry timeEntry) throws Exception{
 
-        return new ResponseEntity<>(timeEntryRepository.create(timeEntry), HttpStatus.CREATED);
+        return new ResponseEntity<>(jdbcTimeEntryRepository.create(timeEntry), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<TimeEntry> read(@PathVariable Long id) throws Exception{
 
-        TimeEntry timeEntry = timeEntryRepository.find(id);
+        TimeEntry timeEntry = jdbcTimeEntryRepository.find(id);
         if (timeEntry != null) {
             return new ResponseEntity<>(timeEntry, HttpStatus.OK);
         } else {
@@ -39,13 +45,13 @@ public class TimeEntryController {
     @GetMapping
     public ResponseEntity<List<TimeEntry>> list() throws Exception{
 
-        return new ResponseEntity<>(timeEntryRepository.list(), HttpStatus.OK);
+        return new ResponseEntity<>(jdbcTimeEntryRepository.list(), HttpStatus.OK);
     }
     @PutMapping("{id}")
     public ResponseEntity<TimeEntry> update(@PathVariable Long id, @RequestBody TimeEntry timeEntry) throws Exception {
 
 
-        TimeEntry updatedTimeEntry = timeEntryRepository.update(id, timeEntry);
+        TimeEntry updatedTimeEntry = jdbcTimeEntryRepository.update(id, timeEntry);
         if (updatedTimeEntry != null) {
             return new ResponseEntity<>(updatedTimeEntry, HttpStatus.OK);
         } else {
@@ -57,7 +63,7 @@ public class TimeEntryController {
     public ResponseEntity<TimeEntry> delete(@PathVariable Long id) throws Exception {
 
 
-        timeEntryRepository.delete(id);
+        jdbcTimeEntryRepository.delete(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

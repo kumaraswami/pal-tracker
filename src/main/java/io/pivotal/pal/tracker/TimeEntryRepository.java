@@ -11,6 +11,6 @@ public interface TimeEntryRepository {
     public TimeEntry find(Long id) throws Exception;
     public List<TimeEntry> list() throws Exception;
     public TimeEntry update(long id, TimeEntry timeEntry) throws Exception;
-    public TimeEntry delete(long id) throws Exception;
+    public void delete(Long id) throws Exception;
 
 }
