@@ -36,7 +36,7 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
     }
 
     @Override
-    public TimeEntry update(long id, TimeEntry timeEntry) throws Exception {
+    public TimeEntry update(Long id, TimeEntry timeEntry) throws Exception {
 
         if(db.containsKey(id))
             return addOrUpdate(id, timeEntry);

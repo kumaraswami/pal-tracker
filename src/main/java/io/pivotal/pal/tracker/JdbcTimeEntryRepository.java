@@ -10,10 +10,10 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.List;
+
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class JdbcTimeEntryRepository implements TimeEntryRepository {
-
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,8 +22,9 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     }
 
     @Override
-    public TimeEntry create(TimeEntry timeEntry) throws Exception {
+    public TimeEntry create(TimeEntry timeEntry) {
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+
         jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO time_entries (project_id, user_id, date, hours) " +
@@ -39,12 +40,11 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
             return statement;
         }, generatedKeyHolder);
 
-
         return find(generatedKeyHolder.getKey().longValue());
     }
 
     @Override
-    public TimeEntry find(Long id) throws Exception {
+    public TimeEntry find(Long id) {
         return jdbcTemplate.query(
                 "SELECT id, project_id, user_id, date, hours FROM time_entries WHERE id = ?",
                 new Object[]{id},
@@ -52,12 +52,12 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     }
 
     @Override
-    public List<TimeEntry> list() throws Exception {
+    public List<TimeEntry> list() {
         return jdbcTemplate.query("SELECT id, project_id, user_id, date, hours FROM time_entries", mapper);
     }
 
     @Override
-    public TimeEntry update(long id, TimeEntry timeEntry) throws Exception {
+    public TimeEntry update(Long id, TimeEntry timeEntry) {
         jdbcTemplate.update("UPDATE time_entries " +
                         "SET project_id = ?, user_id = ?, date = ?,  hours = ? " +
                         "WHERE id = ?",
@@ -71,7 +71,7 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     }
 
     @Override
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
         jdbcTemplate.update("DELETE FROM time_entries WHERE id = ?", id);
     }
 
