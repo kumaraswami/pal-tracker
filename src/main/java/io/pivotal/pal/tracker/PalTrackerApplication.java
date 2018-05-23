@@ -11,21 +11,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import javax.sql.DataSource;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class PalTrackerApplication {
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		SpringApplication.run(PalTrackerApplication.class, args);
 	}
 
-    /*@Bean
-	TimeEntryRepository timeEntryRepository() {
-		return new InMemoryTimeEntryRepository();
-	}*/
-
-    @Bean
-    JdbcTimeEntryRepository jdbcTimeEntryRepository(DataSource dataSource) {
+   	@Bean
+    JdbcTimeEntryRepository jdbcTimeEntryRepository(@Autowired DataSource dataSource) {
         return new JdbcTimeEntryRepository(dataSource);
     }
 

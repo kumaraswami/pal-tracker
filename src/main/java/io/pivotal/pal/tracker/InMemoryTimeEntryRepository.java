@@ -8,34 +8,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-
 @Component
-public class InMemoryTimeEntryRepository implements TimeEntryRepository{
+public class InMemoryTimeEntryRepository /*implements TimeEntryRepository*/{
 
     private Map<Long, TimeEntry> db = new HashMap();
     private AtomicLong sequence = new AtomicLong();
 
-    @Override
+    //@Override
     public TimeEntry create(TimeEntry timeEntry) throws Exception {
 
         return addOrUpdate(sequence.incrementAndGet(), timeEntry);
 
     }
 
-    @Override
+    //@Override
     public TimeEntry find(Long id) throws Exception {
 
         return db.get(id);
 
     }
 
-    @Override
+   // @Override
     public List<TimeEntry> list() throws Exception {
 
         return new ArrayList<TimeEntry>(db.values());
     }
 
-    @Override
+   // @Override
     public TimeEntry update(Long id, TimeEntry timeEntry) throws Exception {
 
         if(db.containsKey(id))
@@ -45,7 +44,7 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
 
     }
 
-    @Override
+    //@Override
     public void delete(Long id) throws Exception {
            db.remove(id);
     }
